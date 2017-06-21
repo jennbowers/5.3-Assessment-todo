@@ -4,9 +4,28 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>To Do List</title>
+    <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <h1>hello world!</h1>
+    <h1>Let's get things DONE</h1>
+
+    <form class="" action="/" method="post">
+      <input type="text" name="todo_enter" value="" placeholder="Type your item that needs to get done here">
+      <input type="submit" name="" value="Pin it to the list!">
+    </form>
+    {{#todoList}}
+    <div class="checkbox-group">
+      <input type="checkbox" name="todo_item" value="" {{done}}>
+      <label for="todo_item">{{task}}</label>
+    </div>
+    {{/todoList}}
+
+    <h2>Completed Tasks:</h2>
+    {{#todoList}}
+      {{^done}}
+      <h4>{{task}}</h4>
+      {{/done}}
+    {{/todoList}}
 
   </body>
 </html>

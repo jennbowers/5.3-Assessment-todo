@@ -13,19 +13,20 @@
       <input type="text" name="todo_enter" value="" placeholder="Type your item that needs to get done here">
       <input type="submit" name="" value="Pin it to the list!">
     </form>
+
     {{#todoList}}
-    <div class="checkbox-group">
-      <input type="checkbox" name="todo_item" value="" {{done}}>
-      <label for="todo_item">{{task}}</label>
-    </div>
+      <form class="todo_group" action="/todo/{{todoId}}" method="post">
+        <input type="submit" name="todo_item" value="Mark Complete">
+        <label for="todo_item" name="todo_label">{{.}}</label>
+      </form>
     {{/todoList}}
 
     <h2>Completed Tasks:</h2>
-    {{#todoList}}
-      {{^done}}
-      <h4>{{task}}</h4>
-      {{/done}}
-    {{/todoList}}
+    {{#completed}}
+    <h4>{{.}}</h4>
+    {{/completed}}
+
+<!--  class on each input, query selector all, loop over node list, node.parentNode.submit-->
 
   </body>
 </html>

@@ -14,17 +14,22 @@
       <input type="submit" name="" value="Pin it to the list!">
     </form>
 
-    {{#todoList}}
-      <form class="todo_group" action="/todo/{{todoId}}" method="post">
+    {{#model}}
+      {{^completed}}
+      <form class="todo_group" action="/completed/{{id}}" method="post">
+        <input type="hidden" name="todo_id" value="{{id}}">
         <input type="submit" name="todo_item" value="Mark Complete">
-        <label for="todo_item" name="todo_label">{{.}}</label>
+        <label for="todo_item" name="todo_label">{{task}}</label>
       </form>
-    {{/todoList}}
+      {{/completed}}
+    {{/model}}
 
     <h2>Completed Tasks:</h2>
-    {{#completed}}
-    <h4>{{.}}</h4>
-    {{/completed}}
+    {{#model}}
+      {{#completed}}
+      <h4>{{task}}</h4>
+      {{/completed}}
+    {{/model}}
 
 <!--  class on each input, query selector all, loop over node list, node.parentNode.submit-->
 

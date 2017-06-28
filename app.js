@@ -1,6 +1,8 @@
 const express = require('express');
 const mustacheExpress = require('mustache-express');
 const bodyParser = require('body-parser');
+// requires in the index in models folder
+const models = require("./models");
 const path = require('path');
 
 const app = express();
@@ -14,67 +16,41 @@ app.set('views', './views');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-var todoIdx = 0;
-var completedIdx = 0;
-
-var context = {
-  todoList: [
-    'Feed dog'
-    , 'Mow the lawn'
-    , 'Do your homework'
-  ]
-  , todoId: function(){
-    return todoIdx++;
-  }
-  , completed: []
-  , completedId: function(){
-    return completedIdx++;
-  }
-
-};
-
 
 app.get('/', function(req, res) {
-  todoIdx = 0;
-  res.render('index', context);
+  models.Todo.findAll().then(function(todos) {
+    res.render('index', {model: todos});
+  });
 });
-
 
 app.post('/', function(req, res) {
-  var todo = context.todoList;
-  todo.push(req.body.todo_enter);
-  console.log(todo)
+  var task = req.body.todo_enter;
+
+  models.Todo.create({
+    task: task
+    , completed: false
+  });
   res.redirect('/');
 });
 
-
-app.post('/todo/:id', function(req, res) {
-  console.log('working');
+app.post('/completed/:id', function(req, res) {
   var id = req.params.id;
-  // var completed_item = context.todo[id];
-  var todo_removed = context.todoList.splice(id, 1);
-  context.completed.push(todo_removed);
-  res.redirect('/');
+  models.Todo.update(
+    {completed: true}
+    , {where: {id: id}}
+  ).then(function() {
+    res.redirect('/');
+  });
+
 });
-
-
-
-// example given in assignment
-// const todos = [
-//   "Wash the car"
-// ];
-//
-// app.get("/", function (req, res) {
-//   res.render('index', { todos: todos });
-// });
-//
-// app.post("/", function (req, res) {
-//   todos.push(req.body.todo);
-//   res.redirect('/');
-// })
-
 
 
 app.listen(3000, function() {
   console.log('Successfully started express application!');
 });
+
+// ----------CREATING TABLE
+// models.Todo.create({
+//   task: 'Do homework'
+//   , completed: null
+// });

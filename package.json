@@ -12,11 +12,16 @@
   ],
   "author": "Jenn Bowers",
   "license": "UNLICENSED",
+  "jshintConfig": {
+    "esversion": 6
+  },
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "mustache-express": "^1.2.4",
     "path": "^0.12.7",
-    "query-selector": "^1.0.9"
+    "pg": "^6.4.0",
+    "query-selector": "^1.0.9",
+    "sequelize": "^4.2.0"
   }
 }

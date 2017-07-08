@@ -65,13 +65,13 @@ app.post('/update/:id', function(req, res) {
 
 app.post('/edit/:id', function(req, res) {
   var id = req.params.id;
-  var editedTask = req.body.task_edit;
-  var editedAssignee = req.body.assignee_edit;
+  // var editedTask = req.body.task_edit;
+  // var editedAssignee = req.body.assignee_edit;
   models.Todo.findOne({
     where: {id: id}
   }).then(function(todo) {
-    todo.title = editedTask;
-    todo.assignee = editedAssignee;
+    todo.task = req.body.task_edit,
+    todo.assignee = req.body.assignee_edit;
     todo.save();
   }).then(function(){
     res.redirect('/');

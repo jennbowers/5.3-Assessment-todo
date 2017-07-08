@@ -4,12 +4,6 @@ module.exports = function(sequelize, DataTypes) {
     task: DataTypes.STRING,
     completed: DataTypes.BOOLEAN,
     assignee: DataTypes.STRING
-  }, {
-    classMethods: {
-      associate: function(models) {
-        // associations can be defined here
-      }
-    }
-  });
+  },{});
   return Todo;
 };

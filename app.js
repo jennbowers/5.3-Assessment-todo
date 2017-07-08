@@ -25,12 +25,14 @@ app.get('/', function(req, res) {
 
 app.post('/', function(req, res) {
   var task = req.body.todo_enter;
-
+  var assignee = req.body.assignee_enter;
   models.Todo.create({
     task: task
+    , assignee: assignee
     , completed: false
+  }).then(function() {
+    res.redirect('/');
   });
-  res.redirect('/');
 });
 
 app.post('/completed/:id', function(req, res) {
@@ -41,7 +43,39 @@ app.post('/completed/:id', function(req, res) {
   ).then(function() {
     res.redirect('/');
   });
+});
 
+app.post('/delete/:id', function(req, res) {
+  var id = req.params.id;
+  models.Todo.destroy({
+    where: {id: id}
+  }).then(function() {
+    res.redirect('/');
+  });
+});
+
+app.post('/update/:id', function(req, res) {
+  var id = req.params.id;
+  models.Todo.findOne({
+    where: {id: id}
+  }).then(function(todo){
+    res.render('update', {model: todo});
+  });
+});
+
+app.post('/edit/:id', function(req, res) {
+  var id = req.params.id;
+  var editedTask = req.body.task_edit;
+  var editedAssignee = req.body.assignee_edit;
+  models.Todo.findOne({
+    where: {id: id}
+  }).then(function(todo) {
+    todo.title = editedTask;
+    todo.assignee = editedAssignee;
+    todo.save();
+  }).then(function(){
+    res.redirect('/');
+  });
 });
 
 

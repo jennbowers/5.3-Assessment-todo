@@ -11,6 +11,7 @@
 
     <form class="" action="/" method="post">
       <input type="text" name="todo_enter" value="" placeholder="Type your item that needs to get done here">
+      <input type="text" name="assignee_enter" value="" placeholder="Type who your item is assigned to here">
       <input type="submit" name="" value="Pin it to the list!">
     </form>
 
@@ -19,19 +20,27 @@
       <form class="todo_group" action="/completed/{{id}}" method="post">
         <input type="hidden" name="todo_id" value="{{id}}">
         <input type="submit" name="todo_item" value="Mark Complete">
-        <label for="todo_item" name="todo_label">{{task}}</label>
+        <label for="todo_item" name="todo_label">{{task}} — {{assignee}}</label>
       </form>
+    </form>
+    <form class="update-todo" action="/update/{{id}}" method="post">
+      <input type="submit" name="update" value="Update Todo">
+    </form>
       {{/completed}}
     {{/model}}
 
     <h2>Completed Tasks:</h2>
     {{#model}}
       {{#completed}}
-      <h4>{{task}}</h4>
+        <h4>{{task}} — {{assignee}}</h4>
+        <form class="delete-todo" action="/delete/{{id}}" method="post">
+          <input type="submit" name="delete" value="Delete Todo">
+        </form>
+        <form class="update-todo" action="/update/{{id}}" method="post">
+          <input type="submit" name="update" value="Update Todo">
+        </form>
       {{/completed}}
     {{/model}}
-
-<!--  class on each input, query selector all, loop over node list, node.parentNode.submit-->
 
   </body>
 </html>
